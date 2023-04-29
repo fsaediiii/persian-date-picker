@@ -40,7 +40,7 @@ class Years extends React.Component {
     return (
       <div className="JC-years">
         <span>سال: </span>
-        {!editable && (
+        {editable && (
           <span
             className="number"
             style={{ cursor: "pointer" }}

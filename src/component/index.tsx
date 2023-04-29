@@ -1,11 +1,12 @@
-import React, { useCallback, useState } from 'react';
-import moment from 'moment-jalaali';
-import Days from './Partials/Days';
-import Months from './Months';
-import Styles from './Partials/Styles';
-import Years from './Partials/Years';
-import Input from './Partials/Input';
-import Background from './Partials/Background';
+import React, { useCallback, useEffect, useState } from "react";
+import moment from "moment-jalaali";
+import Days from "./Days";
+import Months from "./Months";
+// import Styles from './Styles';
+// import Years from './Partials/Years';
+import Input from "./Input";
+import "./_mainDatePicker.css";
+import Years from "./Year";
 
 moment.loadPersian([]);
 
@@ -19,15 +20,18 @@ const JDatePicker = ({
     monthTitleEnable,
     currentMonth,
     selectedYear,
-}) => {
+}: any) => {
     const [openDatePicker, setOpenDatePicker] = useState(false);
     const [date, setDate] = useState({
-        selectedYear: parseInt(moment().format('jYYYY')),
-        currentMonth: currentMonth ? currentMonth : parseInt(moment().format('jMM')),
+        selectedYear: parseInt(moment().format("jYYYY")),
+        currentMonth: currentMonth
+            ? currentMonth
+            : parseInt(moment().format("jMM")),
         selectedMonthFirstDay: moment(
-            moment().format('jYYYY') + '/' + moment().format('jMM') + '/01',
-            'jYYYY/jMM/jDD'
+            moment().format("jYYYY") + "/" + moment().format("jMM") + "/01",
+            "jYYYY/jMM/jDD"
         ).weekday(),
+        daysCount: 0,
         // selectedDay:
         //   preSelected.length > 1
         //     ? moment(preSelected, this.props.format).format("jYYYYjMMjDD")
@@ -35,51 +39,91 @@ const JDatePicker = ({
         // inputValue: preSelected
     });
 
-    console.log('date', date.currentMonth);
+    console.log("year",date)
+    const daysInMonth = (month: any, selectedYear: any) => {
+        if (month > 0 && month < 7) return 31;
+        else if (month > 6 && month < 12) return 30;
+        else if (month == 12 && moment.jIsLeapYear(selectedYear)) return 30;
+        else if (month == 12 && !moment.jIsLeapYear(selectedYear)) return 29;
+    };
+
+    useEffect(() => {
+        const dayInMonth = daysInMonth(
+            moment().format("jMM"),
+            moment().format("jYYYY")
+        );
+        setDate((prevSate) => ({
+            ...prevSate,
+            daysCount: dayInMonth ?? 0,
+        }));
+    }, []);
+
+
     const onClick = useCallback(
-        (state) => {
+        (state: any) => {
             if (state) setOpenDatePicker(state);
             setOpenDatePicker(!openDatePicker);
         },
         [openDatePicker]
     );
 
-    const monthsClicked = (month) => {
-        // let { selectedYear } = this.state;
-        // let year = selectedYear;
-        // let thisMonth = month;
-        // this.setState({ daysCount: 0 });
-        // if (month == 0) {
-        //     this.setState({
-        //         currentMonth: 12,
-        //         daysCount: this.daysInMonth(12, selectedYear - 1),
-        //         selectedYear: selectedYear - 1,
-        //     });
-        //     thisMonth = 12;
-        //     year = selectedYear - 1;
-        // } else if (month == 13) {
-        //     this.setState({
-        //         currentMonth: 1,
-        //         daysCount: this.daysInMonth(1, selectedYear + 1),
-        //         selectedYear: selectedYear + 1,
-        //     });
-        //     thisMonth = 1;
-        //     year = selectedYear + 1;
-        // } else
-        //     this.setState({
-        //         currentMonth: month,
-        //         daysCount: this.daysInMonth(month, selectedYear),
-        //     });
-        // this.firstDayOfMonth(thisMonth, year);
+    const firstDayOfMonth = (mo: any, ye: any) => {
+        let month = mo.toString();
+        let year = ye.toString();
+        if (month.length == 1) month = "0" + month;
+        setDate((prevSate) => ({
+            ...prevSate,
+            selectedMonthFirstDay: moment(
+                year + "/" + month + "/01",
+                "jYYYY/jMM/jDD"
+            ).weekday(),
+        }));
     };
 
-    const yearSelected = (year) => {
-        setDate((prevState) => ({ ...prevState, selectedYear: year }));
-        // firstDayOfMonth(date.currentMonth, year);
+    const monthsClicked = (month: number) => {
+        let { selectedYear } = date;
+        let year = selectedYear;
+        let thisMonth = month;
+        setDate((prevSate) => ({
+            ...prevSate,
+            daysCount: 0,
+        }));
+
+        if (month == 0) {
+            setDate((prevSate) => ({
+                ...prevSate,
+                currentMonth: 12,
+                daysCount: daysInMonth(12, selectedYear - 1) ?? 0,
+                selectedYear: selectedYear - 1,
+            }));
+            thisMonth = 12;
+            year = selectedYear - 1;
+        } else if (month == 13) {
+            setDate((prevSate) => ({
+                ...prevSate,
+                currentMonth: 1,
+                daysCount: daysInMonth(1, selectedYear + 1) ?? 0,
+                selectedYear: selectedYear + 1,
+            }));
+            thisMonth = 1;
+            year = selectedYear + 1;
+        } else
+            setDate((prevSate) => ({
+                ...prevSate,
+                currentMonth: month,
+                daysCount: daysInMonth(month, selectedYear) ?? 0,
+            }));
+        firstDayOfMonth(thisMonth, year);
     };
+
+    // const yearSelected = (year: any) => {
+    //     setDate((prevState) => ({ ...prevState, selectedYear: year }));
+    //     // firstDayOfMonth(date.currentMonth, year);
+    // };
 
     return (
-        <div style={{ textAlign: 'initial' }} className={containerClass}>
+        <div style={{ textAlign: "initial" }} className={containerClass}>
+            {/* input complete */}
             <Input
                 type="text"
                 id={id}
@@ -90,43 +134,36 @@ const JDatePicker = ({
                 onClick={onClick}
                 component={inputComponent}
             />
-            {cancelOnBackgroundClick && openDatePicker && (
-                <Background onClick={() => onClick(false)} />
-            )}
 
             {openDatePicker && (
                 <div className="JDatePicker">
-                    {/* <div className="JDheader">
+                    <div className="JDheader">
                         <div className="right">
                             <Years
-                                changeEvent={(returnedYear) => yearSelected(returnedYear)}
-                                year={selectedYear}
+                                // changeEvent={(returnedYear) => yearSelected(returnedYear)}
+                                year={date.selectedYear}
                             />
                         </div>
                         <div className="left" />
-                    </div> */}
+                    </div>
+
+                    {/* Month complete */}
                     <Months
                         monthTitleEnable={monthTitleEnable}
-                        clickEvent={(returnedMonth) => monthsClicked(returnedMonth)}
+                        clickEvent={(returnedMonth: any) =>
+                            monthsClicked(returnedMonth)
+                        }
                         month={date?.currentMonth}
                     />
-                    <div className="days-titles">
-                        <div>ش</div>
-                        <div>ی</div>
-                        <div>د</div>
-                        <div>س</div>
-                        <div>چ</div>
-                        <div>پ</div>
-                        <div>ج</div>
-                    </div>
+
                     {/* <Days
-                        disableFromUnix={disableFromUnix}
-                        selectedYear={selectedYear}
-                        selectedDay={selectedDay}
-                        currentMonth={currentMonth}
-                        daysCount={daysCount}
-                        firstDay={selectedMonthFirstDay}
-                        clickEvent={(day, momentDay) => this.daysClicked(day, momentDay)}
+                    disableFromUnix={date.disableFromUnix}
+                    selectedYear={selectedYear}
+                    selectedDay={selectedDay}
+                    currentMonth={currentMonth}
+                    daysCount={date.daysCount}
+                    firstDay={selectedMonthFirstDay}
+                    clickEvent={(day, momentDay) => this.daysClicked(day, momentDay)}
                     /> */}
                 </div>
             )}
@@ -269,7 +306,7 @@ const JDatePicker = ({
 //         let {
 //             id,
 //             placeholder,
-//             disableFromUnix,
+//             ,
 //             customClass,
 //             containerClass,
 //             inputTextAlign,

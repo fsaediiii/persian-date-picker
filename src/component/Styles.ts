@@ -1,26 +1,18 @@
-let Styles = nDays => {
+let Styles = () => {
   return `
-        .JDatePicker {
-            width: 300px;
-            min-height: 210px;
-            padding: 5px;
-            position: absolute;
-            background: #00000f;
-            border-radius: 5px;
-            z-index: 1;
-        }
-        .days-titles div {
-            width: 14.28%;
-            display: inline-block;
-            font-size: 14px;
-            font-weight: 300;
-            text-align: center;
-        }
-        .JDatePicker .JC-months {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
+        
+        // .days-titles div {
+        //     width: 14.28%;
+        //     display: inline-block;
+        //     font-size: 14px;
+        //     font-weight: 300;
+        //     text-align: center;
+        // }
+        // .JDatePicker .JC-months {
+        //     position: relative;
+        //     display: inline-block;
+        //     width: 100%;
+        // }
         .JDatePicker .monthPicker {
             position: absolute;
             right: -6px;
@@ -33,35 +25,35 @@ let Styles = nDays => {
             box-shadow: 0px 0px 7px -2px #000;
             z-index: 1;
         }
-        .JDatePicker .month-items:hover, .JDatePicker .month-items.selected {
-            background: aliceblue;
-            color: #ccc;
-        }
-        .JDatePicker .month-items {
-            width: 32.5%;
-            float: right;
-            text-align: center;
-            cursor: pointer;
-            padding: 4px 0px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
-        .JDatePicker .JC-months .prev,  .JDatePicker .JC-months .next{
-            float: right;
-            width: 20%;
-            text-align: center;
-            transform: rotate(180deg);
-            cursor: pointer;
-        }
+        // .JDatePicker .month-items:hover, .JDatePicker .month-items.selected {
+        //     background: aliceblue;
+        //     color: #ccc;
+        // }
+        // .JDatePicker .month-items {
+        //     width: 32.5%;
+        //     float: right;
+        //     text-align: center;
+        //     cursor: pointer;
+        //     padding: 4px 0px;
+        //     border: 1px solid #ccc;
+        //     font-size: 14px;
+        // }
+        // .JDatePicker .JC-months .prev,  .JDatePicker .JC-months .next{
+        //     float: right;
+        //     width: 20%;
+        //     text-align: center;
+        //     transform: rotate(180deg);
+        //     cursor: pointer;
+        // }
 		
-        .JDatePicker .JC-months span:first-child{
-            float: right;
-            width: 15%;
-        }
-        .JDatePicker .JC-months .holder:last-child{
-            float: right;
-            width: 85%;
-        }
+        // .JDatePicker .JC-months span:first-child{
+        //     float: right;
+        //     width: 15%;
+        // }
+        // .JDatePicker .JC-months .holder:last-child{
+        //     float: right;
+        //     width: 85%;
+        // }
         .JDatePicker .JC-days {
             position: relative;
             display: inline-block;
@@ -70,12 +62,12 @@ let Styles = nDays => {
         .JDatePicker .JC-days .holder {
             line-height: 24px;
         }
-        .JDatePicker .print-month {
-            width: 60%;
-            text-align: center;
-            float: right;
-            cursor: pointer;
-        }
+        // .JDatePicker .print-month {
+        //     width: 60%;
+        //     text-align: center;
+        //     float: right;
+        //     cursor: pointer;
+        // }
         .JDatePicker .day-items{
             width: 14.28%;
             float: right;
