@@ -1,0 +1,13 @@
+.JDatePicker {
+    width: 300px;
+    min-height: 210px;
+    padding: 5px;
+    position: absolute;
+    background: #d4afaf;
+    border-radius: 5px;
+    z-index: 1;
+}
+.number{
+    cursor: pointer;
+    text-align: center;
+}

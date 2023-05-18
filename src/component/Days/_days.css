@@ -1,0 +1,19 @@
+.days-titles div {
+    width: 14.28%;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 300;
+    text-align: center;
+}
+
+.day-items {
+    width: 14.28%;
+    float: right;
+    text-align: center;
+    cursor: pointer;
+}
+
+.day-items:hover,
+.day-items.selected {
+    background: #fff;
+}

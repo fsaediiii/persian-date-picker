@@ -1,0 +1,50 @@
+.JC-months {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.JC-months .prev,.JC-months .next{
+    float: right;
+    width: 20%;
+    text-align: center;
+    transform: rotate(180deg);
+    cursor: pointer;
+}
+
+.JC-months span:first-child{
+    float: right;
+    width: 15%;
+}
+
+.JC-months .holder:last-child{
+    float: right;
+    width: 100%;
+}
+
+.print-month {
+    width: 60%;
+    text-align: center;
+    float: right;
+    cursor: pointer;
+}
+
+.month-items:hover, .JDatePicker .month-items.selected {
+    background: aliceblue;
+    color: #ccc;
+}
+.month-items {
+    width: 32.5%;
+    float: right;
+    text-align: center;
+    cursor: pointer;
+    padding: 4px 0px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.monthPicker{
+    position: absolute;
+    background-color: white;
+    top: 28px;
+}
